@@ -2,6 +2,7 @@ package com.edu.itchetumal.luis_.examen_luis_alberto;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int puntuacion, puntuacion1, jugador2 = 0;
     public int auxX;
     public int auxY;
-    public int contador = 20;
+    public int contador = 21;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,29 +37,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int contador(){
-
+        contador--;
         if (contador==10){
             Toast.makeText(this, "Se termino el turno Jugador 1", Toast.LENGTH_SHORT).show();
             puntuacion1=puntuacion;
         }
-        contador--;
+
         if (contador==0){
             Toast.makeText(this, "Se termino el turno Jugador 2", Toast.LENGTH_SHORT).show();
             jugador2=puntuacion-puntuacion1;
             if (puntuacion1 > jugador2){
                 Toast.makeText(this, "El ganador es: Jugador 1", Toast.LENGTH_LONG).show();
-            }else{
+            }
+            if (puntuacion1 < jugador2) {
                 Toast.makeText(this, "El ganador es: Jugador 2", Toast.LENGTH_LONG).show();
+            }
+            if (puntuacion1 == jugador2){
+                Toast.makeText(this, "Empate", Toast.LENGTH_LONG).show();
             }
         }
         return contador;
+    }
+    //reinicia una Activity
+    public static void reiniciarActivity(Activity actividad){
+        Intent intent=new Intent();
+        intent.setClass(actividad, actividad.getClass());
+        //llamamos a la actividad
+        actividad.startActivity(intent);
+        //finalizamos la actividad actual
+        actividad.finish();
     }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnReiniciar){
-            Toast.makeText(this, "Reiniciando jajajaja No me se el metodo xD ;)", Toast.LENGTH_LONG).show();
-            onStart();
+            reiniciarActivity(this);
         }
     }
 
@@ -187,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //canvas.drawText("X = " + circCoordX + " " + "Y = " + circCoordY,
             //     0, this.getMeasuredHeight() - 130, pincel);
             canvas.drawText("Acerto al: " + mensaje, 280, this.getLeft() + 80, pincel);
-            canvas.drawText("Tiros: " + contador, 0, this.getLeft() + 80, pincel);
+            //canvas.drawText("Tiros: " + contador, 0, this.getLeft() + 80, pincel);
             canvas.drawText("Jugador 1: " + puntuacion1, 0, this.getMeasuredHeight() -180, pincel);
             canvas.drawText("Jugador 2: " + jugador2, 0, this.getMeasuredHeight() -130, pincel);
         }//onDraw
@@ -197,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public boolean onTouchEvent(MotionEvent evento) {
             circCoordX = (int) evento.getX();
             circCoordY = (int) evento.getY();
-            if(contador > 0) {
+            if(contador >=0) {
 
                 if (evento.getAction() == MotionEvent.ACTION_DOWN) {
                     double impacto = Math.sqrt(Math.pow(circCoordX - auxX, 2) + Math.pow(circCoordY - auxY, 2));
@@ -238,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (evento.getAction() == MotionEvent.ACTION_MOVE) {
 
                 }
-                this.invalidate();
+                invalidate();
             }
             return true;
         }
