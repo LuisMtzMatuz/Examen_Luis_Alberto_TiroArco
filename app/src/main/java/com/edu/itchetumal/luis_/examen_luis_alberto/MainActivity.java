@@ -16,10 +16,11 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     int circCoordX = 0, circCoordY = 0;
     String mensaje = "0";
-    int puntuacion, puntuacion1, jugador2 = 0;
+    int puntuacion, jugador1, jugador2 = 0;
     public int auxX;
     public int auxY;
     public int contador = 21;
+    public int turno = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +38,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private int contador(){
-        contador--;
-        if (contador==10){
-            Toast.makeText(this, "Se termino el turno Jugador 1", Toast.LENGTH_SHORT).show();
-            puntuacion1=puntuacion;
+        turno = contador%2;
+        if (turno==0){
+            Toast.makeText(this, "Jugador 2", Toast.LENGTH_SHORT).show();
+            jugador2=jugador2+puntuacion;
         }
-
-        if (contador==0){
-            Toast.makeText(this, "Se termino el turno Jugador 2", Toast.LENGTH_SHORT).show();
-            jugador2=puntuacion-puntuacion1;
-            if (puntuacion1 > jugador2){
+        if (turno==1){
+            Toast.makeText(this, "Jugador 1", Toast.LENGTH_SHORT).show();
+            jugador1=jugador1+puntuacion;
+        }
+        if (contador==0) {
+            if (jugador1 > jugador2) {
                 Toast.makeText(this, "El ganador es: Jugador 1", Toast.LENGTH_LONG).show();
             }
-            if (puntuacion1 < jugador2) {
+            if (jugador1 < jugador2) {
                 Toast.makeText(this, "El ganador es: Jugador 2", Toast.LENGTH_LONG).show();
             }
-            if (puntuacion1 == jugador2){
+            if (jugador1 == jugador2) {
                 Toast.makeText(this, "Empate", Toast.LENGTH_LONG).show();
             }
         }
+        contador--;
         return contador;
     }
     //reinicia una Activity
@@ -96,11 +99,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             pincel.setColor(Color.CYAN);
             pincel.setStrokeWidth(5);
             canvas.drawCircle(ancho / 2, alto / 2, 480, pincel);
-            //dibujar contorno del circulo
-            pincel.setStyle(Paint.Style.STROKE);
-            pincel.setColor(Color.BLACK);
-            pincel.setStrokeWidth(5);
-            canvas.drawCircle(ancho / 2, alto / 2, 480, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
@@ -112,25 +110,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             pincel.setColor(Color.CYAN);
             pincel.setStrokeWidth(2);
             canvas.drawCircle(ancho / 2, alto / 2, 400, pincel);
-            //dibujar contorno del circulo
-            pincel.setStyle(Paint.Style.STROKE);
-            pincel.setColor(Color.BLACK);
-            pincel.setStrokeWidth(2);
-            canvas.drawCircle(ancho / 2, alto / 2, 400, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
             pincel.setTextSize(50); //para aumnetar el tamaño del texto
             canvas.drawText("6", ancho / 2 + 340, alto / 2 + 20, pincel);
 
-            // /dibujar circulo 7
+            //dibujar circulo 7
             pincel.setStyle(Paint.Style.FILL);
             pincel.setColor(Color.RED);
-            pincel.setStrokeWidth(5);
-            canvas.drawCircle(ancho / 2, alto / 2, 320, pincel);
-            //dibujar contorno del circulo
-            pincel.setStyle(Paint.Style.STROKE);
-            pincel.setColor(Color.BLACK);
             pincel.setStrokeWidth(5);
             canvas.drawCircle(ancho / 2, alto / 2, 320, pincel);
             //Dibujar texto
@@ -144,11 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             pincel.setColor(Color.RED);
             pincel.setStrokeWidth(2);
             canvas.drawCircle(ancho / 2, alto / 2, 240, pincel);
-            //dibujar contorno del circulo
-            pincel.setStyle(Paint.Style.STROKE);
-            pincel.setColor(Color.BLACK);
-            pincel.setStrokeWidth(2);
-            canvas.drawCircle(ancho / 2, alto / 2, 240, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
@@ -158,11 +141,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //dibujar circulo 9
             pincel.setStyle(Paint.Style.FILL);
             pincel.setColor(Color.YELLOW);
-            pincel.setStrokeWidth(5);
-            canvas.drawCircle(ancho / 2, alto / 2, 160, pincel);
-            //dibujar contorno del circulo
-            pincel.setStyle(Paint.Style.STROKE);
-            pincel.setColor(Color.BLACK);
             pincel.setStrokeWidth(5);
             canvas.drawCircle(ancho / 2, alto / 2, 160, pincel);
             //Dibujar texto
@@ -176,18 +154,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             pincel.setColor(Color.YELLOW);
             pincel.setStrokeWidth(2);
             canvas.drawCircle(ancho / 2, alto / 2, 80, pincel);
-            //dibujar contorno del circulo
-            pincel.setStyle(Paint.Style.STROKE);
-            pincel.setColor(Color.BLACK);
-            pincel.setStrokeWidth(2);
-            canvas.drawCircle(ancho / 2, alto / 2, 80, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
             pincel.setTextSize(50); //para aumnetar el tamaño del texto
             canvas.drawText("10", ancho / 2 - 30, alto / 2 + 20, pincel);
 
+            //dibujar contornos
+            pincel.setStyle(Paint.Style.STROKE);
+            pincel.setColor(Color.BLACK);
+            pincel.setStrokeWidth(5);
+            canvas.drawCircle(ancho / 2, alto / 2, 480, pincel);
+            //dibujar contorno del circulo
+            pincel.setStrokeWidth(2);
+            canvas.drawCircle(ancho / 2, alto / 2, 400, pincel);
+            //dibujar contorno del circulo
+            pincel.setStrokeWidth(5);
+            canvas.drawCircle(ancho / 2, alto / 2, 320, pincel);
+            //dibujar contorno del circulo
+            pincel.setStrokeWidth(2);
+            canvas.drawCircle(ancho / 2, alto / 2, 240, pincel);
+            //dibujar contorno del circulo
+            pincel.setStrokeWidth(5);
+            canvas.drawCircle(ancho / 2, alto / 2, 160, pincel);
+            //dibujar contorno del circulo
+            pincel.setStrokeWidth(2);
+            canvas.drawCircle(ancho / 2, alto / 2, 80, pincel);
+
+
+
             //CIRCULO NEGRO
+            pincel.setStyle(Paint.Style.FILL);
             pincel.setColor(Color.BLACK);
             pincel.setStrokeWidth(3);
             canvas.drawCircle(circCoordX, circCoordY, 30, pincel);
@@ -201,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //     0, this.getMeasuredHeight() - 130, pincel);
             canvas.drawText("Acerto al: " + mensaje, 280, this.getLeft() + 80, pincel);
             //canvas.drawText("Tiros: " + contador, 0, this.getLeft() + 80, pincel);
-            canvas.drawText("Jugador 1: " + puntuacion1, 0, this.getMeasuredHeight() -180, pincel);
+            canvas.drawText("Jugador 1: " + jugador1, 0, this.getMeasuredHeight() -180, pincel);
             canvas.drawText("Jugador 2: " + jugador2, 0, this.getMeasuredHeight() -130, pincel);
         }//onDraw
 
@@ -210,49 +207,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public boolean onTouchEvent(MotionEvent evento) {
             circCoordX = (int) evento.getX();
             circCoordY = (int) evento.getY();
+
             if(contador >=0) {
 
                 if (evento.getAction() == MotionEvent.ACTION_DOWN) {
                     double impacto = Math.sqrt(Math.pow(circCoordX - auxX, 2) + Math.pow(circCoordY - auxY, 2));
-                    contador();
 
                     if (impacto <= 90) {
                         mensaje = "10";
-                        puntuacion=puntuacion+10;
+                        puntuacion = 10;
                     }
                     if (impacto > 90 & impacto <= 170) {
                         mensaje = "9";
-                        puntuacion=puntuacion+9;
+                        puntuacion = 9;
                     }
                     if (impacto > 170 & impacto <= 250) {
                         mensaje = "8";
-                        puntuacion=puntuacion+8;
+                        puntuacion = 8;
                     }
                     if (impacto > 250 & impacto <= 330) {
                         mensaje = "7";
-                        puntuacion=puntuacion+7;
+                        puntuacion = 7;
                     }
                     if (impacto > 330 & impacto <= 390) {
                         mensaje = "6";
-                        puntuacion=puntuacion+6;
+                        puntuacion = 6;
                     }
                     if (impacto >= 390 & impacto <= 470) {
                         mensaje = "5";
-                        puntuacion=puntuacion+5;
+                        puntuacion = 5;
                     }
                     if (impacto > 470) {
                         mensaje = "0";
-                        puntuacion=puntuacion+0;
+                        puntuacion = 0;
                     }
+                    contador();
                 }
                 if (evento.getAction() == MotionEvent.ACTION_UP) {
-
                 }
                 if (evento.getAction() == MotionEvent.ACTION_MOVE) {
-
                 }
-                invalidate();
             }
+            invalidate();
             return true;
         }
     }//Lienzo
