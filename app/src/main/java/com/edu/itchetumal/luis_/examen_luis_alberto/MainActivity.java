@@ -1,24 +1,25 @@
 package com.edu.itchetumal.luis_.examen_luis_alberto;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-    int circCoordX = 0, circCoordY=0;
-    Path ruta = new Path();
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    int circCoordX = 0, circCoordY = 0;
     String mensaje = "0";
-    int puntuacion=0;
+    int puntuacion, puntuacion1, jugador2 = 0;
     public int auxX;
     public int auxY;
-    public int tiros = 0;
+    public int contador = 20;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,20 +30,50 @@ public class MainActivity extends AppCompatActivity {
         Lienzo areaDibujo = new Lienzo(this);
 
         layoutP.addView(areaDibujo);
+
+        View btn = findViewById(R.id.btnReiniciar);
+        btn.setOnClickListener(this);
     }
 
-    class Lienzo extends View{
+    private int contador(){
 
-        public Lienzo (Context context) {
+        if (contador==10){
+            Toast.makeText(this, "Se termino el turno Jugador 1", Toast.LENGTH_SHORT).show();
+            puntuacion1=puntuacion;
+        }
+        contador--;
+        if (contador==0){
+            Toast.makeText(this, "Se termino el turno Jugador 2", Toast.LENGTH_SHORT).show();
+            jugador2=puntuacion-puntuacion1;
+            if (puntuacion1 > jugador2){
+                Toast.makeText(this, "El ganador es: Jugador 1", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(this, "El ganador es: Jugador 2", Toast.LENGTH_LONG).show();
+            }
+        }
+        return contador;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btnReiniciar){
+            Toast.makeText(this, "Reiniciando jajajaja No me se el metodo xD ;)", Toast.LENGTH_LONG).show();
+            onStart();
+        }
+    }
+
+    class Lienzo extends View {
+
+        public Lienzo(Context context) {
             super(context);
         }
 
-        protected void onDraw(Canvas canvas){
+        protected void onDraw(Canvas canvas) {
             int ancho = canvas.getWidth();
             int alto = canvas.getHeight();
 
-            auxX=ancho/2;
-            auxY=alto/2;
+            auxX = ancho / 2;
+            auxY = alto / 2;
 
             Paint pincel = new Paint();
             pincel.setAntiAlias(true);
@@ -51,97 +82,97 @@ public class MainActivity extends AppCompatActivity {
             pincel.setStyle(Paint.Style.FILL);
             pincel.setColor(Color.CYAN);
             pincel.setStrokeWidth(5);
-            canvas.drawCircle(ancho/2, alto/2, 480, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 480, pincel);
             //dibujar contorno del circulo
             pincel.setStyle(Paint.Style.STROKE);
             pincel.setColor(Color.BLACK);
             pincel.setStrokeWidth(5);
-            canvas.drawCircle(ancho/2, alto/2, 480, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 480, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
             pincel.setTextSize(50); //para aumnetar el tamaño del texto
-            canvas.drawText("5", ancho/2+420, alto/2+20, pincel);
+            canvas.drawText("5", ancho / 2 + 420, alto / 2 + 20, pincel);
 
             //dibujar circulo 6
             pincel.setStyle(Paint.Style.FILL);
             pincel.setColor(Color.CYAN);
             pincel.setStrokeWidth(2);
-            canvas.drawCircle(ancho/2, alto/2, 400, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 400, pincel);
             //dibujar contorno del circulo
             pincel.setStyle(Paint.Style.STROKE);
             pincel.setColor(Color.BLACK);
             pincel.setStrokeWidth(2);
-            canvas.drawCircle(ancho/2, alto/2, 400, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 400, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
             pincel.setTextSize(50); //para aumnetar el tamaño del texto
-            canvas.drawText("6", ancho/2+340, alto/2+20, pincel);
+            canvas.drawText("6", ancho / 2 + 340, alto / 2 + 20, pincel);
 
             // /dibujar circulo 7
             pincel.setStyle(Paint.Style.FILL);
             pincel.setColor(Color.RED);
             pincel.setStrokeWidth(5);
-            canvas.drawCircle(ancho/2, alto/2, 320, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 320, pincel);
             //dibujar contorno del circulo
             pincel.setStyle(Paint.Style.STROKE);
             pincel.setColor(Color.BLACK);
             pincel.setStrokeWidth(5);
-            canvas.drawCircle(ancho/2, alto/2, 320, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 320, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
             pincel.setTextSize(50); //para aumnetar el tamaño del texto
-            canvas.drawText("7", ancho/2+260, alto/2+20, pincel);
+            canvas.drawText("7", ancho / 2 + 260, alto / 2 + 20, pincel);
 
             //dibujar circulo 8
             pincel.setStyle(Paint.Style.FILL);
             pincel.setColor(Color.RED);
             pincel.setStrokeWidth(2);
-            canvas.drawCircle(ancho/2, alto/2, 240, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 240, pincel);
             //dibujar contorno del circulo
             pincel.setStyle(Paint.Style.STROKE);
             pincel.setColor(Color.BLACK);
             pincel.setStrokeWidth(2);
-            canvas.drawCircle(ancho/2, alto/2, 240, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 240, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
             pincel.setTextSize(50); //para aumnetar el tamaño del texto
-            canvas.drawText("8", ancho/2+175, alto/2+20, pincel);
+            canvas.drawText("8", ancho / 2 + 175, alto / 2 + 20, pincel);
 
             //dibujar circulo 9
             pincel.setStyle(Paint.Style.FILL);
             pincel.setColor(Color.YELLOW);
             pincel.setStrokeWidth(5);
-            canvas.drawCircle(ancho/2, alto/2, 160, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 160, pincel);
             //dibujar contorno del circulo
             pincel.setStyle(Paint.Style.STROKE);
             pincel.setColor(Color.BLACK);
             pincel.setStrokeWidth(5);
-            canvas.drawCircle(ancho/2, alto/2, 160, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 160, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
             pincel.setTextSize(50); //para aumnetar el tamaño del texto
-            canvas.drawText("9", ancho/2+100, alto/2+20, pincel);
+            canvas.drawText("9", ancho / 2 + 100, alto / 2 + 20, pincel);
 
             //dibujar circulo 10
             pincel.setStyle(Paint.Style.FILL);
             pincel.setColor(Color.YELLOW);
             pincel.setStrokeWidth(2);
-            canvas.drawCircle(ancho/2, alto/2, 80, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 80, pincel);
             //dibujar contorno del circulo
             pincel.setStyle(Paint.Style.STROKE);
             pincel.setColor(Color.BLACK);
             pincel.setStrokeWidth(2);
-            canvas.drawCircle(ancho/2, alto/2, 80, pincel);
+            canvas.drawCircle(ancho / 2, alto / 2, 80, pincel);
             //Dibujar texto
             pincel.setStyle(Paint.Style.FILL); //lo que se dibuja tiene un relleno
             pincel.setColor(Color.BLACK);
             pincel.setTextSize(50); //para aumnetar el tamaño del texto
-            canvas.drawText("10", ancho/2-30, alto/2+20, pincel);
+            canvas.drawText("10", ancho / 2 - 30, alto / 2 + 20, pincel);
 
             //CIRCULO NEGRO
             pincel.setColor(Color.BLACK);
@@ -152,61 +183,64 @@ public class MainActivity extends AppCompatActivity {
             pincel.setTextSize(50);
             pincel.setStyle(Paint.Style.FILL);
             //canvas.drawText("ancho = " + auxX + " " + "alto = " + auxY,
-              //      0, this.getMeasuredHeight() - 180, pincel);
+            //      0, this.getMeasuredHeight() - 180, pincel);
             //canvas.drawText("X = " + circCoordX + " " + "Y = " + circCoordY,
-              //     0, this.getMeasuredHeight() - 130, pincel);
-            canvas.drawText("Acerto al: " + mensaje, 280, this.getLeft()+80, pincel);
-            canvas.drawText("Tiros: " + tiros, 0, this.getLeft()+80, pincel);
-            canvas.drawText("Puntuación: " + puntuacion, 620, this.getLeft()+80, pincel);
+            //     0, this.getMeasuredHeight() - 130, pincel);
+            canvas.drawText("Acerto al: " + mensaje, 280, this.getLeft() + 80, pincel);
+            canvas.drawText("Tiros: " + contador, 0, this.getLeft() + 80, pincel);
+            canvas.drawText("Jugador 1: " + puntuacion1, 0, this.getMeasuredHeight() -180, pincel);
+            canvas.drawText("Jugador 2: " + jugador2, 0, this.getMeasuredHeight() -130, pincel);
         }//onDraw
 
         //Métodos para eventos Touch
         @Override
-        public boolean onTouchEvent(MotionEvent evento){
+        public boolean onTouchEvent(MotionEvent evento) {
             circCoordX = (int) evento.getX();
-            circCoordY =(int) evento.getY();
+            circCoordY = (int) evento.getY();
+            if(contador > 0) {
 
-            if (evento.getAction() == MotionEvent.ACTION_DOWN) {
-                double impacto = Math.sqrt(Math.pow(circCoordX - auxX, 2) + Math.pow(circCoordY - auxY, 2));
+                if (evento.getAction() == MotionEvent.ACTION_DOWN) {
+                    double impacto = Math.sqrt(Math.pow(circCoordX - auxX, 2) + Math.pow(circCoordY - auxY, 2));
+                    contador();
 
                     if (impacto <= 90) {
                         mensaje = "10";
-                        //puntuacion=10;
+                        puntuacion=puntuacion+10;
                     }
-                    if (impacto >90 & impacto <=170) {
+                    if (impacto > 90 & impacto <= 170) {
                         mensaje = "9";
-                        //puntuacion=puntuacion+9;
+                        puntuacion=puntuacion+9;
                     }
-                    if (impacto >170 & impacto <=250) {
+                    if (impacto > 170 & impacto <= 250) {
                         mensaje = "8";
-                        //puntuacion=puntuacion+9;
+                        puntuacion=puntuacion+8;
                     }
-                    if (impacto >250 & impacto <=330) {
+                    if (impacto > 250 & impacto <= 330) {
                         mensaje = "7";
-                        //puntuacion=puntuacion+9;
+                        puntuacion=puntuacion+7;
                     }
-                    if (impacto >330 & impacto <=390) {
+                    if (impacto > 330 & impacto <= 390) {
                         mensaje = "6";
-                        //puntuacion=puntuacion+9;
+                        puntuacion=puntuacion+6;
                     }
-                    if (impacto >=390 & impacto <=470) {
+                    if (impacto >= 390 & impacto <= 470) {
                         mensaje = "5";
-                        //puntuacion=puntuacion+9;
+                        puntuacion=puntuacion+5;
                     }
-                    if (impacto >470) {
+                    if (impacto > 470) {
                         mensaje = "0";
-                        //puntuacion=puntuacion+9;
+                        puntuacion=puntuacion+0;
                     }
-            }
-            if (evento.getAction() == MotionEvent.ACTION_UP){
+                }
+                if (evento.getAction() == MotionEvent.ACTION_UP) {
 
-            }
-            if (evento.getAction() == MotionEvent.ACTION_MOVE){
+                }
+                if (evento.getAction() == MotionEvent.ACTION_MOVE) {
 
+                }
+                this.invalidate();
             }
-            invalidate();
-
-            return  true;
+            return true;
         }
     }//Lienzo
 }
